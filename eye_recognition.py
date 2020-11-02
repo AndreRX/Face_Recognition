@@ -15,24 +15,24 @@ t_end = time.time() + 60*0.5  # 60 * minutes program will run
 camera = cv2.VideoCapture(0)  #Opens WebCam
 
 while time.time()<t_end:
-    (sucesso, frame) = camera.read()
-    if not sucesso:
+    (sucess, frame) = camera.read()
+    if not sucess:
         break
     
     frame = redim(frame, 300)
-    frame_pb = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = df.detectMultiScale(frame_pb, scaleFactor = 1.3, minNeighbors=3)
+    frame_bw = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = df.detectMultiScale(frame_bw, scaleFactor = 1.3, minNeighbors=3)
     frame_temp = frame.copy()
 
     if faces != []:   #if an eye is recognized 
-        #test = cv2.resize(frame_pb, (28, 28), interpolation = cv2.INTER_AREA)  # makes the image into 784 pixels, just with wanted converted and not images
+        #test = cv2.resize(frame_bw, (28, 28), interpolation = cv2.INTER_AREA)  # makes the image into 784 pixels, just with wanted converted and not images
         #resize = test.flatten().reshape((1, 784))   # making the image into an array
         aux.append(frame)
 
     for (x, y, lar, alt) in faces:
         cv2.rectangle(frame_temp, (x, y), (x + lar, y + alt), (0, 255, 0), 2)   # make the rectangle in the eye
     
-    cv2.imshow("Encontrando faces...", redim(frame_temp, 640))
+    cv2.imshow("finding faces", redim(frame_temp, 640))
     
     if cv2.waitKey(1) & 0xFF == ord("s"):
         break
